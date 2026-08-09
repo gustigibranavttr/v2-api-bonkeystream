@@ -17,8 +17,10 @@ app.use(express.json());
 app.use(rateLimiter);
 
 // ── Swagger Docs ───────────────────────────────────────────
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   customCss: '.swagger-ui .topbar { display: none }',
+  customCssUrl: CSS_URL,
   customSiteTitle: 'BonkeyStreamV2 API Docs'
 }));
 
