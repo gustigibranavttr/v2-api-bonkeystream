@@ -1,7 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const swaggerUi = require('swagger-ui-express');
+const { apiReference } = require('@scalar/express-api-reference');
 const swaggerSpec = require('./docs/swagger');
 const rateLimiter = require('./middleware/rateLimiter');
 const errorHandler = require('./middleware/errorHandler');
@@ -18,17 +18,17 @@ app.use(cors());
 app.use(express.json());
 app.use(rateLimiter);
 
-// ── Swagger Docs ───────────────────────────────────────────
-const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css";
-app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
-  customCss: '.swagger-ui .topbar { display: none }',
-  customCssUrl: CSS_URL,
-  customJs: [
-    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui-bundle.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui-standalone-preset.js'
-  ],
-  customSiteTitle: 'BonkeyStreamV2 API Docs'
-}));
+// ── API Docs (Scalar) ─────────────────────────────────────────
+app.use(
+  '/docs',
+  apiReference({
+    spec: {
+      content: swaggerSpec,
+    },
+    theme: 'kepler',
+    layout: 'modern',
+  })
+);
 
 // ── API Routes ─────────────────────────────────────────────
 app.use('/api', routes);
