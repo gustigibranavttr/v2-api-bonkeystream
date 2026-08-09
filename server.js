@@ -17,10 +17,14 @@ app.use(express.json());
 app.use(rateLimiter);
 
 // ── Swagger Docs ───────────────────────────────────────────
-const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.1.0/swagger-ui.min.css";
+const CSS_URL = "https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui.min.css";
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
   customCss: '.swagger-ui .topbar { display: none }',
   customCssUrl: CSS_URL,
+  customJs: [
+    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui-bundle.js',
+    'https://cdnjs.cloudflare.com/ajax/libs/swagger-ui/4.3.0/swagger-ui-standalone-preset.js'
+  ],
   customSiteTitle: 'BonkeyStreamV2 API Docs'
 }));
 
@@ -70,7 +74,7 @@ if (process.env.NODE_ENV !== 'production') {
   app.listen(PORT, () => {
     console.log(`
     ╔══════════════════════════════════════════════╗
-    ║   🐵 BonkeyStreamV2 API                     ║
+    ║    BonkeyStreamV2 API                     ║
     ║   Running on: http://localhost:${PORT}          ║
     ║   Docs:       http://localhost:${PORT}/docs     ║
     ╚══════════════════════════════════════════════╝
