@@ -1,7 +1,6 @@
 const express = require('express');
 const helmet = require('helmet');
 const cors = require('cors');
-const { apiReference } = require('@scalar/express-api-reference');
 const swaggerSpec = require('./docs/swagger');
 const rateLimiter = require('./middleware/rateLimiter');
 const errorHandler = require('./middleware/errorHandler');
@@ -19,16 +18,19 @@ app.use(express.json());
 app.use(rateLimiter);
 
 // ── API Docs (Scalar) ─────────────────────────────────────────
-app.use(
-  '/docs',
-  apiReference({
-    spec: {
-      content: swaggerSpec,
-    },
-    theme: 'kepler',
-    layout: 'modern',
-  })
-);
+app.use('/docs', async (req, res, next) => {
+  try {
+    const { apiReference } = await import('@scalar/express-api-reference');
+    const middleware = apiReference({
+      spec: { content: swaggerSpec },
+      theme: 'kepler',
+      layout: 'modern',
+    });
+    return middleware(req, res, next);
+  } catch (err) {
+    next(err);
+  }
+});
 
 // ── API Routes ─────────────────────────────────────────────
 app.use('/api', routes);
