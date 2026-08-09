@@ -11,7 +11,9 @@ const { PORT } = require('./config');
 const app = express();
 
 // ── Security & Middleware ──────────────────────────────────
-app.use(helmet());
+app.use(helmet({
+  contentSecurityPolicy: false,
+}));
 app.use(cors());
 app.use(express.json());
 app.use(rateLimiter);
