@@ -22,9 +22,12 @@ app.use('/docs', async (req, res, next) => {
   try {
     const { apiReference } = await import('@scalar/express-api-reference');
     const middleware = apiReference({
-      spec: { content: swaggerSpec },
       theme: 'kepler',
       layout: 'modern',
+      pageTitle: 'BonkeyStreamV2 API Docs',
+      spec: {
+        content: swaggerSpec,
+      },
     });
     return middleware(req, res, next);
   } catch (err) {
