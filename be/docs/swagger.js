@@ -10,6 +10,7 @@ const options = {
       contact: { name: 'BonkeyStream' }
     },
     servers: [
+      { url: 'https://v2-api-bonkeystream.vercel.app', description: 'Production' },
       { url: 'http://localhost:3000', description: 'Development' }
     ],
     tags: [
