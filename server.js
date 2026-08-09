@@ -63,15 +63,18 @@ app.use((req, res) => {
 // ── Error Handler ───────────────────────────────────────────
 app.use(errorHandler);
 
-// ── Start ───────────────────────────────────────────────────
-app.listen(PORT, () => {
-  console.log(`
-  ╔══════════════════════════════════════════════╗
-  ║   🐵 BonkeyStreamV2 API                     ║
-  ║   Running on: http://localhost:${PORT}          ║
-  ║   Docs:       http://localhost:${PORT}/docs     ║
-  ╚══════════════════════════════════════════════╝
-  `);
-});
+// ── Start (Hanya jalan di environment lokal) ───────────────
+if (process.env.NODE_ENV !== 'production') {
+  app.listen(PORT, () => {
+    console.log(`
+    ╔══════════════════════════════════════════════╗
+    ║   🐵 BonkeyStreamV2 API                     ║
+    ║   Running on: http://localhost:${PORT}          ║
+    ║   Docs:       http://localhost:${PORT}/docs     ║
+    ╚══════════════════════════════════════════════╝
+    `);
+  });
+}
 
+// ── Export untuk Vercel Serverless ──────────────────────────
 module.exports = app;
