@@ -7,7 +7,7 @@ const { error } = require('../middleware/responseWrapper');
  * /api/resolve:
  *   get:
  *     summary: Resolve Nimegami HTML stream URL to direct MP4 URL
- *     description: Takes the streaming URL returned by the watch endpoint and resolves it to a direct .mp4 file. Returns a 302 redirect to the MP4 file so it can be used directly in a `<video src="...">` tag.
+ *     description: Takes the streaming URL returned by the watch endpoint and resolves it to a direct .mp4 file. Returns a cross-origin-readable 302 redirect to the MP4 file so it can be used directly in a `<video src="...">` tag.
  *     tags: [Streaming]
  *     parameters:
  *       - in: query
@@ -24,7 +24,7 @@ const { error } = require('../middleware/responseWrapper');
  *       500:
  *         description: Failed to resolve URL.
  */
-router.get('/', async (req, res, next) => {
+async function resolveStream(req, res, next) {
   try {
     const streamUrl = req.query.url;
     if (!streamUrl) {
@@ -52,7 +52,11 @@ router.get('/', async (req, res, next) => {
     });
 
     if (response.data && response.data.ok && response.data.url) {
-      // Redirect the browser/player directly to the MP4 file
+      // Helmet defaults to same-origin, which blocks this redirect when the
+      // player is hosted on a different origin from the API.
+      res.set('Cross-Origin-Resource-Policy', 'cross-origin');
+
+      // Redirect the browser/player directly to the MP4 file.
       return res.redirect(302, response.data.url);
     }
 
@@ -60,6 +64,9 @@ router.get('/', async (req, res, next) => {
   } catch (err) {
     next(err);
   }
-});
+}
+
+router.get('/', resolveStream);
 
 module.exports = router;
+module.exports.resolveStream = resolveStream;
