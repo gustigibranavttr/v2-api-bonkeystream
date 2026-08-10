@@ -53,16 +53,26 @@ async function scrapeDetail(slug) {
 
   // Parse download links if available
   const downloads = [];
-  $('.download-eps .download-link, .smokeddl .smokeurl').each((i, el) => {
-    const quality = $(el).find('strong').text().trim();
-    const links = [];
-    $(el).find('a').each((j, a) => {
-      const name = $(a).text().trim();
-      const href = $(a).attr('href');
-      if (name && href) links.push({ name, url: href });
+  $('.download h4, .download-eps h4, .batch-dlcuy h4, .smokeddl h4').each((i, el) => {
+    const downloadTitle = $(el).text().trim();
+    const qualities = [];
+    
+    // Find the next <ul> sibling which contains the download links
+    $(el).next('ul').find('li').each((j, li) => {
+      const quality = $(li).find('strong').text().trim();
+      const links = [];
+      $(li).find('a').each((k, a) => {
+        const name = $(a).text().trim();
+        const url = $(a).attr('href');
+        if (name && url) links.push({ name, url });
+      });
+      if (quality || links.length > 0) {
+        qualities.push({ quality, links });
+      }
     });
-    if (quality || links.length > 0) {
-      downloads.push({ quality, links });
+    
+    if (downloadTitle || qualities.length > 0) {
+      downloads.push({ title: downloadTitle, qualities });
     }
   });
 
