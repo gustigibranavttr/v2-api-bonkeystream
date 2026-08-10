@@ -1,0 +1,70 @@
+@theme {
+  --font-display: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-body: Arial, Helvetica, sans-serif;
+
+  --color-background: oklch(96.8% 0.003 96);
+  --color-surface: oklch(100% 0 0);
+  --color-surface-raised: oklch(92.7% 0.004 96);
+  --color-surface-soft: oklch(87.8% 0.005 96);
+  --color-foreground: oklch(22.8% 0.004 96);
+  --color-muted: oklch(35% 0.006 96);
+  --color-subtle: oklch(42% 0.006 96);
+  --color-border: oklch(82.5% 0.005 96);
+  --color-border-strong: oklch(64.5% 0.006 96);
+  --color-accent: oklch(92.5% 0.224 117);
+  --color-accent-hover: oklch(86.6% 0.207 117);
+  --color-accent-foreground: oklch(18.6% 0.005 96);
+  --color-secondary: oklch(30% 0.004 96);
+  --color-gold: oklch(79.6% 0.065 82);
+  --color-danger: oklch(67.2% 0.194 34);
+  --color-warning: oklch(91% 0.188 113);
+
+  --radius-input: 0.125rem;
+  --radius-card: 0.25rem;
+  --radius-panel: 1.4rem;
+  --radius-action: 999px;
+
+  --ease-enter: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-exit: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-state: cubic-bezier(0.65, 0, 0.35, 1);
+
+  --animate-skeleton: skeleton 1.6s ease-in-out infinite;
+
+  @keyframes skeleton {
+    0%, 100% { opacity: 0.46; }
+    50% { opacity: 0.78; }
+  }
+}
+
+:root {
+  color-scheme: light;
+  --page-gutter: clamp(1rem, 4vw, 4rem);
+  --page-max: 82rem;
+  --dur-micro: 120ms;
+  --dur-short: 220ms;
+  --dur-long: 420ms;
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in: cubic-bezier(0.7, 0, 0.84, 0);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --z-raised: 10;
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-modal: 400;
+  --z-toast: 500;
+  --z-tooltip: 600;
+}
+
+:root[data-theme="dark"],
+.theme-dark {
+  color-scheme: dark;
+  --color-background: oklch(16.8% 0.004 96);
+  --color-surface: oklch(21.8% 0.005 96);
+  --color-surface-raised: oklch(27% 0.006 96);
+  --color-surface-soft: oklch(33.5% 0.006 96);
+  --color-foreground: oklch(96.4% 0.003 96);
+  --color-muted: oklch(84% 0.006 96);
+  --color-subtle: oklch(72% 0.006 96);
+  --color-border: oklch(37% 0.006 96);
+  --color-border-strong: oklch(52% 0.006 96);
+  color: var(--color-foreground);
+}
