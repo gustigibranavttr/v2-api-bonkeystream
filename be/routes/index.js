@@ -10,6 +10,7 @@ router.use('/bd', require('./bd'));
 router.use('/movie', require('./movie'));
 router.use('/schedule', require('./schedule'));
 router.use('/watch', require('./watch'));
+router.use('/resolve', require('./resolve'));
 router.use('/ongoing', require('./ongoing'));
 router.use('/popular', require('./popular'));
 
